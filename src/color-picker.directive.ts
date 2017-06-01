@@ -1,4 +1,4 @@
-import {Component, OnChanges, Directive, Input, Output, ViewContainerRef, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
+import {Component, OnChanges, Directive, Input, Output, ViewContainerRef, ElementRef, EventEmitter, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {ColorPickerService} from './color-picker.service';
 import {Rgba, Hsla, Hsva, SliderPosition, SliderDimension} from './classes';
 import {NgModule, Compiler, ReflectiveInjector} from '@angular/core';
@@ -253,7 +253,7 @@ export class DialogComponent implements OnInit {
 
     @ViewChild('dialogPopup') dialogElement: any;
 
-    constructor(private el: ElementRef, private service: ColorPickerService) { }
+    constructor(private el: ElementRef, private service: ColorPickerService, private cdr: ChangeDetectorRef) { }
 
     setDialog(instance: any, elementRef: ElementRef, color: any, cpPosition: string, cpPositionOffset: string,
         cpPositionRelativeToArrow: boolean, cpOutputFormat: string, cpPresetLabel: string, cpPresetColors: Array<string>,
@@ -375,6 +375,7 @@ export class DialogComponent implements OnInit {
             this.directiveInstance.toggle(false);
             document.removeEventListener('mousedown', this.listenerMouseDown);
             window.removeEventListener('resize', this.listenerResize);
+            this.cdr.markForCheck();
         }
     }
 
